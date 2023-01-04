@@ -1,6 +1,9 @@
 package com.dh.meli.exemplo_consumo_api.controller;
 
 import com.dh.meli.exemplo_consumo_api.dto.CepDto;
+import com.dh.meli.exemplo_consumo_api.entity.Cep;
+import com.dh.meli.exemplo_consumo_api.service.CepService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,10 +13,12 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("cep")
 public class CepController {
 
+    @Autowired
+    private CepService cepService;
+
     @GetMapping("consultaCep/{cep}")
     public ResponseEntity<CepDto> retornaEndereco(@PathVariable String cep){
-        CepDto cepDto = new RestTemplate().getForEntity("https://viacep.com.br/ws/"+cep+"/json/", CepDto.class).getBody();
-        return new ResponseEntity(cepDto, HttpStatus.OK);
+        return new ResponseEntity(CepDto.convertToCep(cepService.encontrarEndereco(cep)), HttpStatus.OK);
     }
 
     @PostMapping("salvar")
