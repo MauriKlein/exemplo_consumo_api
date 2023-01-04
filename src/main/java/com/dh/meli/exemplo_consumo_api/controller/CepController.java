@@ -18,7 +18,7 @@ public class CepController {
 
     @GetMapping("consultaCep/{cep}")
     public ResponseEntity<CepDto> retornaEndereco(@PathVariable String cep){
-        return new ResponseEntity(CepDto.convertToCep(cepService.encontrarEndereco(cep)), HttpStatus.OK);
+        return new ResponseEntity(CepDto.convertToCepDto(cepService.encontrarEndereco(cep)), HttpStatus.OK);
     }
 
     @PostMapping("salvar")
